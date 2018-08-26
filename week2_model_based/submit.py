@@ -14,7 +14,7 @@ def submit_assigment(
         email,
         token):
     grader = grading.Grader("EheZDOgLEeenIA4g5qPHFA")
-    sys.stdout = None
+    #sys.stdout = None
 
     transition_probs = {
         's0': {
@@ -48,7 +48,7 @@ def submit_assigment(
 
     mdp = MDP(transition_probs, rewards, initial_state='s0')
 
-    test_Vs = {s: i for i, s in enumerate(mdp.get_all_states())}
+    test_Vs = {s: i for i, s in enumerate(sorted(mdp.get_all_states()))}
     qvalue1 = get_action_value(mdp, test_Vs, 's1', 'a0', 0.9)
     qvalue2 = get_action_value(mdp, test_Vs, 's4', 'a1', 0.9)
 
@@ -117,5 +117,5 @@ def submit_assigment(
 
     grader.set_answer("U3RzE", np.mean(total_rewards) + np.std(total_rewards))
 
-    sys.stdout = sys.__stdout__
+    #sys.stdout = sys.__stdout__
     grader.submit(email, token)
