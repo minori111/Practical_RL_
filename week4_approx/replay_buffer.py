@@ -19,7 +19,7 @@ class ReplayBuffer(object):
         return len(self._storage)
 
     def add(self, obs_t, action, reward, obs_tp1, done):
-        data = (obs_t, action, reward, obs_tp1, done)
+        data = (np.array(obs_t, dtype=np.int8), action, reward, obs_tp1, done)
 
         if self._next_idx >= len(self._storage):
             self._storage.append(data)
@@ -37,7 +37,7 @@ class ReplayBuffer(object):
             rewards.append(reward)
             obses_tp1.append(np.array(obs_tp1, copy=False))
             dones.append(done)
-        return np.array(obses_t), np.array(actions), np.array(rewards), np.array(obses_tp1), np.array(dones)
+        return np.array(obses_t, dtype=np.int8), np.array(actions, dtype=np.int32).reshape(-1), np.array(rewards).reshape(-1), np.array(obses_tp1), np.array(dones).reshape(-1)
 
     def sample(self, batch_size):
         """Sample a batch of experiences.
